@@ -27,7 +27,7 @@ class Accord
 
     if (Sentence::contains('{noun}{verb}')) {
       $message->pattern = str_replace('{verb}', '{state}{verb}', $message->pattern);
-      $message->sentence['state'] = Babel::state('success');
+      $message->sentence['state'] = Babel::state('normal');
       $message->verb = Verb::past($message->verb);
     } elseif (Sentence::contains('{noun}({object})?{state}{verb}')) {
       $message->verb = Verb::past($message->verb);
