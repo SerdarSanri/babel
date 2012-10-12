@@ -3,4 +3,5 @@
   'create' => 'créer',
   'delete' => 'supprimer',
   'update' => 'modifier',
+  'return' => 'retourner',
 );

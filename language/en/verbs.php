@@ -3,4 +3,5 @@
   'create' => 'create',
   'delete' => 'delete',
   'update' => 'update',
+  'return' => 'return',
 );

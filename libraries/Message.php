@@ -119,6 +119,20 @@ class Message
     return $this;
   }
 
+  ////////////////////////////////////////////////////////////////////
+  /////////////////////////////// RETURN /////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+
+  /**
+   * Renders the complete sentence
+   *
+   * @return string A sentence
+   */
+  public function speak()
+  {
+    return ucfirst(implode(' ', $this->sentence));
+  }
+
   /**
    * Renders the complete sentence
    *
@@ -126,6 +140,6 @@ class Message
    */
   public function __toString()
   {
-    return ucfirst(implode(' ', $this->sentence));
+    return $this->speak();
   }
 }

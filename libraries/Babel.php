@@ -19,22 +19,22 @@ class Babel
   /**
    * Builds a restful message
    *
-   * @param  string  $page   The current page
-   * @param  string  $object The object's name
-   * @param  string  $verb   The CRUD verb
-   * @param  boolean $string The state of the action (failed or succeeded)
-   * @return string          A text message
+   * @param  string  $subject The current subject
+   * @param  string  $object  The object's name
+   * @param  string  $verb    The CRUD verb
+   * @param  boolean $string  The state of the action (failed or succeeded)
+   * @return string           A text message
    */
-  public static function restful($page, $object, $verb, $state = true)
+  public static function restful($subject, $object, $verb, $state = true)
   {
     $bool  = $state ? 'success' : 'error';
 
-    static::$message = new Message();
-    static::$message->noun($page, 'the');
-    if($object) static::$message->subject($object);
-    static::$message->state($bool)->verb($verb);
+    $message = new Message();
+    $message->noun($subject, 'the');
+    if($object) $message->subject($object);
+    $message->state($bool)->verb($verb);
 
-    return \Alert::$bool(static::$message, false);
+    return \Alert::$bool($message, false);
   }
 
   /**
@@ -44,20 +44,20 @@ class Babel
    */
   public static function add($noun)
   {
-    static::$message = new Message();
-    static::$message->verb('add')->noun($noun, 'a');
+    $message = new Message();
+    $message->verb('add')->noun($noun, 'a');
 
-    return static::$message->__toString();
+    return $message->speak();
   }
 
   public static function nothing($noun)
   {
-    static::$message = new Message();
-    static::$message->noun = $noun;
+    $message = new Message();
+    $message->noun = $noun;
 
-    static::$message->number(0)->noun($noun)->bit('to_display');
+    $message->number(0)->noun($noun)->bit('to_display');
 
-    return static::$message->__toString();
+    return $message->speak();
   }
 
   /**
@@ -70,6 +70,21 @@ class Babel
     if(\Session::has('message')) {
       return \Session::get('message');
     }
+  }
+
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////// TRANSLATE ///////////////////////////
+  ////////////////////////////////////////////////////////////////////
+
+  /**
+   * Get a verb
+   *
+   * @param  string $verb The verb to get
+   * @return string       Translated verb
+   */
+  public static function verb($verb)
+  {
+    return __('babel::verbs.'.$verb);
   }
 
   ////////////////////////////////////////////////////////////////////
