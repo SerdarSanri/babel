@@ -17,7 +17,7 @@ class Verb
    */
   public static function past($verb)
   {
-    switch(Babel::lang()) {
+    switch (Babel::lang()) {
       case 'fr':
         $verb = substr($verb, 0, -2).'é';
         $verb = Accord::verb($verb);

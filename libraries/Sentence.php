@@ -44,7 +44,7 @@ class Sentence
 
     // Transform the pattern into an array and reorder according to it
     preg_match_all('/{([a-z]+)}/', $message->pattern, $pattern);
-    foreach($pattern[1] as $p) {
+    foreach ($pattern[1] as $p) {
       $_sentence[$p] = $message->$p;
     }
 

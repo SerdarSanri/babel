@@ -27,8 +27,8 @@ class Genderize
     if(static::irregular($word)) return static::irregular($word);
 
     // Else look for patterns ans replace
-    foreach(__('babel::genders.feminize')->get() as $pattern => $replace) {
-      if(preg_match($pattern, $word)) {
+    foreach (__('babel::genders.feminize')->get() as $pattern => $replace) {
+      if (preg_match($pattern, $word)) {
         return preg_replace($pattern, $replace, $word);
       }
     }

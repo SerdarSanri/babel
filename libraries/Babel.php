@@ -75,7 +75,7 @@ class Babel
    */
   public static function displayMessage()
   {
-    if(\Session::has('message')) {
+    if (\Session::has('message')) {
       return \Session::get('message');
     }
   }
@@ -93,7 +93,7 @@ class Babel
    */
   public static function __callStatic($method, $parameters)
   {
-    if(in_array($method, array('adjective', 'article', 'bit', 'noun', 'number', 'plural', 'state', 'verb'))) {
+    if (in_array($method, array('adjective', 'article', 'bit', 'noun', 'number', 'plural', 'state', 'verb'))) {
       $word = array_get($parameters, 0);
       if(is_null($word)) return false;
 

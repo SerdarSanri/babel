@@ -113,7 +113,7 @@ class Message
     $this->pattern .= '{object}';
 
     // Try to convert the object to a string
-    if(is_object($object)) {
+    if (is_object($object)) {
       $object = method_exists($object, '__toString')
         ? $object->__toString()
         : $object->name;
@@ -187,7 +187,7 @@ class Message
     $adjective = Babel::adjective($adjective);
 
     // Conjugates if a noun precedes the verb
-    if(isset($this->sentence['noun'])) {
+    if (isset($this->sentence['noun'])) {
       $adjective = Accord::adjective($adjective, $this);
     }
 
@@ -265,7 +265,6 @@ class Message
   {
     if($this->number) return is_int($this->number) and $this->number > 1;
     elseif(Word::isPlural($this->core)) return true;
-
     return false;
   }
 }
