@@ -9,6 +9,6 @@ abstract class BootstrapTests extends PHPUnit_Framework_TestCase
   {
     return $state
       ? '<div class="alert alert-success">' .$text. '</div>'
-      : '<div class="alert alert-error">' .$text. '</div>';
+      : '<div class="alert alert-error">'   .$text. '</div>';
   }
 }

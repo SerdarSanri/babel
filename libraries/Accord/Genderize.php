@@ -8,37 +8,10 @@
 namespace Babel\Accord;
 
 use \Babel\Word;
+use \Babel\Babel;
 
 class Genderize
 {
-  /**
-   * Cached list of irregular words
-   * @var array
-   */
-  private static $irregular;
-
-  /**
-   * Cached list of feminizing patterns
-   * @var array
-   */
-  private static $feminize;
-
-  /**
-   * Cached list of invariable words
-   * @var array
-   */
-  private static $invariable;
-
-  /**
-   * Cache all list for future reference
-   */
-  public function __construct()
-  {
-    static::$irregular  = __('babel::genders.irregular')->get();
-    static::$feminize   = __('babel::genders.feminize')->get();
-    static::$invariable = __('babel::genders.invariable')->get();
-  }
-
   /**
    * Transform any word to its female version
    *
@@ -48,16 +21,43 @@ class Genderize
   public static function female($word)
   {
     // If the world is invariable, don't touch it
-    if(in_array($word, static::$invariable)) return $word;
+    if(static::invariable($word)) return $word;
 
     // If it's irregular, return the feminized form
-    if(isset(static::$irregular[$word])) return static::$irregular[$word];
+    if(static::irregular($word)) return static::irregular($word);
 
     // Else look for patterns ans replace
-    foreach(static::$feminize as $pattern => $replace) {
+    foreach(__('babel::genders.feminize')->get() as $pattern => $replace) {
       if(preg_match($pattern, $word)) {
         return preg_replace($pattern, $replace, $word);
       }
     }
+
+    return $word;
+  }
+
+  /**
+   * Checks if a word's gender is invariable
+   *
+   * @param  string  $word A word
+   * @return boolean       Invariable or not
+   */
+  public static function invariable($word)
+  {
+    return in_array($word, __('babel::genders.invariable')->get());
+  }
+
+  /**
+   * Checks if a word's gender is irregular, if so return it
+   *
+   * @param  string $word A word
+   * @return string       Irregular form or original word
+   */
+  public static function irregular($word)
+  {
+    $irregular = __('babel::genders.irregular')->get();
+
+    if(isset($irregular[$word])) return $irregular[$word];
+    else return false;
   }
 }

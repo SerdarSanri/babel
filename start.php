@@ -10,5 +10,3 @@
 Autoloader::namespaces(array(
   'Babel' => Bundle::path('babel') . 'libraries'
 ));
-
-new \Babel\Accord\Genderize;

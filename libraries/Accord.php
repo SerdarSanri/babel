@@ -47,6 +47,7 @@ class Accord
   {
     $message = Message::current();
 
+    // Set article to plural if necessary
     if($message->isPlural()) $article = Babel::plural($article);
 
     switch(Babel::lang()) {
