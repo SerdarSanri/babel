@@ -48,24 +48,39 @@ class Message
   public $plural = false;
 
   /**
-   * Creates the object and set the core noun
+   * Creates a new instance of the Message class
    *
-   * @param string $noun A noun
+   * @param  string $noun A noun
+   * @param  string $verb A verb
    */
-  public function __construct($noun = null)
+  public static function start($noun = null, $verb = null)
   {
-    $this->core = $noun;
-
-    return $this;
-  }
-
-  public static function start($noun = null)
-  {
-    static::$message = new static($noun);
+    static::$message = new static($noun, $verb);
 
     return static::$message;
   }
 
+  /**
+   * Creates the object and set the core noun
+   *
+   * @param string $noun A noun
+   * @param string $verb A verb
+   */
+  public function __construct($noun = null, $verb = null)
+  {
+    $this->core = $noun;
+
+    if($verb) $this->verb($verb);
+
+    return $this;
+  }
+
+  /**
+   * Get a value either from the Message or its sentence
+   *
+   * @param  string $key The key to get
+   * @return string      Its value
+   */
   public function __get($key)
   {
     $result = array_get($this->sentence, $key);
@@ -76,6 +91,12 @@ class Message
     return $result;
   }
 
+  /**
+   * Set a piece of the sentence dynamically
+   *
+   * @param string $key   The key
+   * @param string $value The content
+   */
   public function __set($key, $value)
   {
     $this->sentence[$key] = $value;
@@ -94,6 +115,12 @@ class Message
   public function noun($noun)
   {
     $this->pattern .= '{noun}';
+
+    // Remove end if we passed a controller
+    if(str_contains($noun, 'Controller')) {
+      $noun = str_replace('_Controller', null, $noun);
+      $noun = Str::singular(Str::lower($noun));
+    }
 
     // Save noun as core concept if none was defined
     if(!$this->core) $this->core = $noun;
@@ -204,6 +231,11 @@ class Message
   public function verb($verb)
   {
     $this->pattern .= '{verb}';
+
+    // If we passed a controller's action
+    if(str_contains($verb, '_')) {
+      $verb = array_get(explode('_', $verb), 1);
+    }
 
     $this->verb =  Babel::verb($verb);
 

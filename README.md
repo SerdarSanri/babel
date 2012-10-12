@@ -38,7 +38,7 @@ class Categories_Controller
 {
   public function post_create()
   {
-    $message = Message::create()->noun('categories')->verb('create');
+    $message = Message::create(__CLASS__, __FUNCTION__);
 
     if($somethingFails) $message->state(false);
     else {
