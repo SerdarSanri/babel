@@ -13,11 +13,11 @@ use \Str;
 class Word
 {
   /**
-   * An array of female nouns
+   * An array of female concepts
    * @var array
    */
   private static $female = array(
-    'category',
+    'category', 'poire',
   );
 
   /**
@@ -39,6 +39,17 @@ class Word
     $noun = Str::singular($noun);
 
     return in_array($noun, static::$female);
+  }
+
+  /**
+   * Checks if a noun is plural or singular
+   *
+   * @param  string  $noun A noun
+   * @return boolean
+   */
+  public static function isPlural($noun)
+  {
+    return Str::plural($noun) == $noun;
   }
 
   /**

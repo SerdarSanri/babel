@@ -10,18 +10,17 @@ namespace Babel;
 class Verb
 {
   /**
-   * Conjugate a verb according to a noun
+   * Set a verb to past tense
    *
-   * @param  string $noun The noun
-   * @param  string $verb The verb
-   * @return string       The conjugated verb
+   * @param  string $verb The verb to modify
+   * @return string       Past verb
    */
-  public static function conjugate($noun, $verb)
+  public static function past($verb)
   {
     switch(Babel::lang()) {
       case 'fr':
         $verb = substr($verb, 0, -2).'é';
-        $verb = Accord::verbToNoun($noun, $verb);
+        $verb = Accord::verb($verb);
         break;
       case 'en':
         if(!Word::endsWithVowel($verb)) $verb .= 'e';

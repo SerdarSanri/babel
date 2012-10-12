@@ -12,16 +12,78 @@ use \Str;
 class Message
 {
   /**
+   * The current message in instance
+   * @var Message
+   */
+  private static $message;
+
+  /**
    * The different parts of the sentence being created
    * @var array
    */
-  private $sentence = array();
+  public $sentence = array();
+
+  /**
+   * The order of the words
+   * @var string
+   */
+  public $pattern = null;
 
   /**
    * The untranslated noun for helpers
    * @var string
    */
-  private $core = null;
+  public $core = null;
+
+  /**
+   * Whether the main noun is female or male
+   * @var boolean
+   */
+  public $female = false;
+
+  /**
+   * Whether there are several of the main noun
+   * @var boolean
+   */
+  public $plural = false;
+
+  /**
+   * Creates the object and set the core noun
+   *
+   * @param string $noun A noun
+   */
+  public function __construct($noun = null)
+  {
+    $this->core = $noun;
+
+    return $this;
+  }
+
+  public static function start($noun = null)
+  {
+    static::$message = new static($noun);
+
+    return static::$message;
+  }
+
+  public function __get($key)
+  {
+    $result = array_get($this->sentence, $key);
+
+    // If no noun has yet been set, fallback to the base concept
+    if(!$result and $key == 'noun') $result = $this->core;
+
+    return $result;
+  }
+
+  public function __set($key, $value)
+  {
+    $this->sentence[$key] = $value;
+  }
+
+  ////////////////////////////////////////////////////////////////////
+  /////////////////////////////// SETTERS ////////////////////////////
+  ////////////////////////////////////////////////////////////////////
 
   /**
    * Add a noun to the sentence
@@ -29,36 +91,44 @@ class Message
    * @param  string $noun     A noun
    * @param  boolean $article Whether an article should be prepended
    */
-  public function noun($noun, $article = null)
+  public function noun($noun)
   {
-    // Get noun
-    $this->core = $noun;
-    $noun = __('babel::nouns.'.Str::singular($noun));
+    $this->pattern .= '{noun}';
 
-    if($article) {
+    // Save noun as core concept if none was defined
+    if(!$this->core) $this->core = $noun;
 
-      // Get the right article
-      $sex = Word::isFemale($this->core) ? 'female' : 'male';
-      $article = __('babel::articles.'.$article.'.'.$sex);
-      $article = Accord::articleToNoun($this->core, $article);
-
-      // Add space if necessary
-      if(substr($article, -1) != "'") $article .= ' ';
-    }
-
-    $this->sentence['noun'] = $article.$noun;
+    $this->noun = Babel::noun(Str::singular($noun));
 
     return $this;
   }
 
   /**
-   * Add a subject to the sentence
+   * Add a object to the sentence
    *
-   * @param  string $subject A subject
+   * @param  string $object A object
    */
-  public function subject($subject)
+  public function object($object)
   {
-    $this->sentence['subject'] = '&laquo; ' .$subject. ' &raquo;';
+    $this->pattern .= '{object}';
+
+    // Try to convert the object to a string
+    if(is_object($object)) {
+      $object = method_exists($object, '__toString')
+        ? $object->__toString()
+        : $object->name;
+    }
+
+    $this->sentence['object'] = '&laquo; ' .$object. ' &raquo;';
+
+    return $this;
+  }
+
+  public function article($article)
+  {
+    $this->pattern .= '{article}';
+
+    $this->article = Babel::article($article);
 
     return $this;
   }
@@ -70,7 +140,9 @@ class Message
    */
   public function state($state)
   {
-    $this->sentence['state'] = __('babel::states.'.$state);
+    $this->pattern .= '{state}';
+
+    $this->state = Babel::state($state);
 
     return $this;
   }
@@ -82,20 +154,44 @@ class Message
    */
   public function number($number)
   {
-    $number = __('babel::numbers.'.$number);
-    $this->sentence['number'] = Accord::numberToNoun($this->core, $number);
+    $this->pattern .= '{number}';
+
+    $this->number = Babel::number($number);
 
     return $this;
   }
 
   /**
-   * Add a bit of sentence
+   * Add a precreated bit of sentence
    *
    * @param  string $bit The bit to display
    */
   public function bit($bit)
   {
-    $this->sentence[] = __('babel::bits.'.$bit);
+    $this->pattern .= '{bit}';
+
+    $this->bit = Babel::bit($bit);
+
+    return $this;
+  }
+
+  /**
+   * Add an adjective to the sentence
+   *
+   * @param  string $verb A verb
+   */
+  public function adjective($adjective)
+  {
+    $this->pattern .= '{adjective}';
+
+    $adjective = Babel::adjective($adjective);
+
+    // Conjugates if a noun precedes the verb
+    if(isset($this->sentence['noun'])) {
+      $adjective = Accord::adjective($adjective, $this);
+    }
+
+    $this->adjective = $adjective;
 
     return $this;
   }
@@ -107,14 +203,9 @@ class Message
    */
   public function verb($verb)
   {
-    $verb = __('babel::verbs.'.$verb);
+    $this->pattern .= '{verb}';
 
-    // Conjugates if a noun precedes the verb
-    if($this->core) {
-      $verb = Verb::conjugate($this->core, $verb);
-    }
-
-    $this->sentence['verb'] = $verb;
+    $this->verb =  Babel::verb($verb);
 
     return $this;
   }
@@ -123,6 +214,11 @@ class Message
   /////////////////////////////// RETURN /////////////////////////////
   ////////////////////////////////////////////////////////////////////
 
+  public static function current()
+  {
+    return static::$message;
+  }
+
   /**
    * Renders the complete sentence
    *
@@ -130,7 +226,20 @@ class Message
    */
   public function speak()
   {
-    return ucfirst(implode(' ', $this->sentence));
+    // Apply all rules to found words
+    $message = Accord::accord($this);
+
+    // Reorder the sentence to match the pattern
+    $message = Sentence::reorder($message);
+
+    // Filter the sentence and implode it as a string
+    $sentence = array_filter($message->sentence);
+    $sentence = ucfirst(implode(' ', $sentence));
+    $sentence = str_replace("' ", "'", $sentence);
+
+    static::$message = null;
+
+    return $sentence;
   }
 
   /**
@@ -141,5 +250,22 @@ class Message
   public function __toString()
   {
     return $this->speak();
+  }
+
+  ////////////////////////////////////////////////////////////////////
+  /////////////////////////////// HELPERS ////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+
+  public function isFemale()
+  {
+    return Word::isFemale($this->core);
+  }
+
+  public function isPlural()
+  {
+    if($this->number) return is_int($this->number) and $this->number > 1;
+    elseif(Word::isPlural($this->core)) return true;
+
+    return false;
   }
 }

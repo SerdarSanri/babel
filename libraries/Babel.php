@@ -11,51 +11,59 @@ namespace Babel;
 class Babel
 {
   /**
-   * The current message in instance
-   * @var Message
-   */
-  private static $message;
-
-  /**
    * Builds a restful message
    *
-   * @param  string  $subject The current subject
+   * @param  string  $noun    The base noun
    * @param  string  $object  The object's name
    * @param  string  $verb    The CRUD verb
    * @param  boolean $string  The state of the action (failed or succeeded)
    * @return string           A text message
    */
-  public static function restful($subject, $object, $verb, $state = true)
+  public static function restful($noun, $object, $verb, $state = true)
   {
-    $bool  = $state ? 'success' : 'error';
+    $state  = $state ? 'success' : 'error';
 
-    $message = new Message();
-    $message->noun($subject, 'the');
-    if($object) $message->subject($object);
-    $message->state($bool)->verb($verb);
+    $message = Message::start($noun)->article('the')->noun($noun);
+    if($object) $message->object($object);
+    $message->state($state)->verb($verb);
 
-    return \Alert::$bool($message, false);
+    return '<div class="alert alert-'.$state. '">' .$message. '</div>';
   }
 
   /**
    * Creates an "Add a [something]" message
    *
-   * @param string $noun The base noun
+   * @param  string $noun The base noun
+   * @return string
    */
   public static function add($noun)
   {
-    $message = new Message();
-    $message->verb('add')->noun($noun, 'a');
+    $message = Message::start($noun);
+    $message->verb('add')->article('a')->noun($noun);
 
     return $message->speak();
   }
 
+  /**
+   * Creates a "No X to display" message
+   *
+   * @param  string $noun The noun to use
+   * @return string
+   */
   public static function nothing($noun)
   {
-    $message = new Message();
-    $message->noun = $noun;
+    $message = Message::start($noun);
 
     $message->number(0)->noun($noun)->bit('to_display');
+
+    return $message->speak();
+  }
+
+  public static function many($number, $noun)
+  {
+    $message = Message::start($noun);
+
+    $message->number($number)->noun($noun)->adjective('display');
 
     return $message->speak();
   }
@@ -77,14 +85,20 @@ class Babel
   ////////////////////////////////////////////////////////////////////
 
   /**
-   * Get a verb
+   * Automatic transation
    *
-   * @param  string $verb The verb to get
-   * @return string       Translated verb
+   * @param  string $method     The kind of word to translate
+   * @param  string $parameters The key to get
+   * @return string             Translated word
    */
-  public static function verb($verb)
+  public static function __callStatic($method, $parameters)
   {
-    return __('babel::verbs.'.$verb);
+    if(in_array($method, array('adjective', 'article', 'bit', 'noun', 'number', 'plural', 'state', 'verb'))) {
+      $word = array_get($parameters, 0);
+      if(is_null($word)) return false;
+
+      return __('babel::'.$method.'s.'.$word)->get(null, $word);
+    }
   }
 
   ////////////////////////////////////////////////////////////////////

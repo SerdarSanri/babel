@@ -3,11 +3,6 @@ use Babel\Babel;
 
 class FrenchBabelTests extends FrenchTests
 {
-  public static function setUpBeforeClass()
-  {
-    \Config::set('application.language', 'fr');
-  }
-
   public function restful()
   {
     return array(
@@ -19,9 +14,9 @@ class FrenchBabelTests extends FrenchTests
   /**
    * @dataProvider restful
   */
-  public function testRestful($page, $object, $verb, $state, $expected)
+  public function testRestful($noun, $object, $verb, $state, $expected)
   {
-    $babel = Babel::restful($page, $object, $verb, $state);
+    $babel = Babel::restful($noun, $object, $verb, $state);
     $expected = $this->wrapAlert($state, $expected);
 
     $this->assertEquals($expected, $babel);
@@ -32,6 +27,13 @@ class FrenchBabelTests extends FrenchTests
     $babel = Babel::add('user');
 
     $this->assertEquals('Ajouter un utilisateur', $babel);
+  }
+
+  public function testAddMultiple()
+  {
+    $babel = Babel::add('users');
+
+    $this->assertEquals('Ajouter des utilisateurs', $babel);
   }
 
   public function testAddAccord()
@@ -46,5 +48,19 @@ class FrenchBabelTests extends FrenchTests
     $babel = Babel::nothing('user');
 
     $this->assertEquals('Aucun utilisateur à afficher', $babel);
+  }
+
+  public function testOne()
+  {
+    $babel = Babel::many(1, 'album');
+
+    $this->assertEquals('Un album affiché', $babel);
+  }
+
+  public function testMany()
+  {
+    $babel = Babel::many(12, 'category');
+
+    $this->assertEquals('12 catégories affichées', $babel);
   }
 }

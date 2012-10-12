@@ -14,9 +14,9 @@ class EnglishBabelTests extends EnglishTests
   /**
    * @dataProvider restful
   */
-  public function testRestful($page, $object, $verb, $state, $expected)
+  public function testRestful($noun, $object, $verb, $state, $expected)
   {
-    $babel = Babel::restful($page, $object, $verb, $state);
+    $babel = Babel::restful($noun, $object, $verb, $state);
     $expected = $this->wrapAlert($state, $expected);
 
     $this->assertEquals($expected, $babel);
@@ -27,6 +27,13 @@ class EnglishBabelTests extends EnglishTests
     $babel = Babel::add('user');
 
     $this->assertEquals('Add an user', $babel);
+  }
+
+  public function testAddMultiple()
+  {
+    $babel = Babel::add('users');
+
+    $this->assertEquals('Add users', $babel);
   }
 
   public function testAddAccord()
