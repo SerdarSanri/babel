@@ -48,19 +48,6 @@ class Message
   public $plural = false;
 
   /**
-   * Creates a new instance of the Message class
-   *
-   * @param  string $noun A noun
-   * @param  string $verb A verb
-   */
-  public static function start($noun = null, $verb = null)
-  {
-    static::$message = new static($noun, $verb);
-
-    return static::$message;
-  }
-
-  /**
    * Creates the object and set the core noun
    *
    * @param string $noun A noun
@@ -246,6 +233,20 @@ class Message
   /////////////////////////////// RETURN /////////////////////////////
   ////////////////////////////////////////////////////////////////////
 
+  /**
+   * Set the current message being creater
+   *
+   * @param  Message $message
+   */
+  public static function message(Message $message)
+  {
+    static::$message = $message;
+  }
+
+  /**
+   * Fetch the current message being created
+   * @return Message
+   */
   public static function current()
   {
     return static::$message;

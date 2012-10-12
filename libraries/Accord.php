@@ -12,7 +12,7 @@ use \Str;
 class Accord
 {
 
-  public static function accord($message)
+  public static function accord(Message $message)
   {
     // Look for common sentences patterns
     $pattern = $message->pattern;

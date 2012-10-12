@@ -21,7 +21,7 @@ Babel::many(15, 'category')
 
 // You can also build custom sentences
 // This will output "A category was created"
-$message = Message::start()
+$message = Babel::create()
   ->article('a')
   ->noun('category')
   ->verb('create')
@@ -31,14 +31,14 @@ Ok now comes the question on everyone's lips. And I know what it is.
 
     How the hell might that be useful to me ?
 
-Think leaner, faster, dryer and future-proof message creation. You remember when you had to write a custom message as result for every one of your application's action ? Well now you don't have to anymore. You just pass Babel the current Model, and the action that just happened, and it will create all those sentences for you.
+Think leaner, faster, dryer and future-proof message creation. You remember when you had to write a custom message as result for every one of your application's action ? Well now you don't have to anymore. You just pass Babel the current class, and the action that just happened, and it will create all those sentences for you.
 
 ```php
 class Categories_Controller
 {
   public function post_create()
   {
-    $message = Message::create(__CLASS__, __FUNCTION__);
+    $message = Babel::create(__CLASS__, __FUNCTION__);
 
     if($somethingFails) $message->state(false);
     else {

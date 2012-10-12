@@ -11,6 +11,19 @@ namespace Babel;
 class Babel
 {
   /**
+   * Creates a new instance of the Message class
+   *
+   * @param  string $noun A noun
+   * @param  string $verb A verb
+   */
+  public static function create($noun = null, $verb = null)
+  {
+    Message::message(new Message($noun, $verb));
+
+    return Message::current();
+  }
+
+  /**
    * Builds a restful message
    *
    * @param  string  $noun    The base noun
@@ -23,7 +36,7 @@ class Babel
   {
     $state  = $state ? 'success' : 'error';
 
-    $message = Message::start($noun)->article('the')->noun($noun);
+    $message = Babel::create($noun)->article('the')->noun($noun);
     if($object) $message->object($object);
     $message->state($state)->verb($verb);
 
@@ -38,7 +51,7 @@ class Babel
    */
   public static function add($noun)
   {
-    $message = Message::start($noun);
+    $message = Babel::create($noun);
     $message->verb('add')->article('a')->noun($noun);
 
     return $message->speak();
@@ -52,7 +65,7 @@ class Babel
    */
   public static function nothing($noun)
   {
-    $message = Message::start($noun);
+    $message = Babel::create($noun);
 
     $message->number(0)->noun($noun)->bit('to_display');
 
@@ -61,7 +74,7 @@ class Babel
 
   public static function many($number, $noun)
   {
-    $message = Message::start($noun);
+    $message = Babel::create($noun);
 
     $message->number($number)->noun($noun)->adjective('display');
 

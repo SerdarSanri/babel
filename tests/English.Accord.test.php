@@ -1,6 +1,6 @@
 <?php
 use Babel\Accord;
-use Babel\Message;
+use Babel\Babel;
 
 include 'start.php';
 include 'EnglishTests.php';
@@ -10,7 +10,7 @@ class EnglishAccordTests extends EnglishTests
 {
   public function testAccordArticleNormal()
   {
-    $message = Message::start('pear');
+    $message = Babel::create('pear');
     $babel = Accord::article('a', $message);
 
     $this->assertEquals("a", $babel);
@@ -18,7 +18,7 @@ class EnglishAccordTests extends EnglishTests
 
   public function testAccordArticle()
   {
-    $message = Message::start('apricot');
+    $message = Babel::create('apricot');
     $babel = Accord::article('a', $message);
 
     $this->assertEquals("an", $babel);

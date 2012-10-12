@@ -1,12 +1,12 @@
 <?php
 use Babel\Accord;
-use Babel\Message;
+use Babel\Babel;
 
 class FrenchAccordTests extends FrenchTests
 {
   public function testAccordArticleNormal()
   {
-    $message = Message::start('poire');
+    $message = Babel::create('poire');
     $babel = Accord::article('la', $message);
 
     $this->assertEquals("la", $babel);
@@ -14,7 +14,7 @@ class FrenchAccordTests extends FrenchTests
 
   public function testAccordArticle()
   {
-    $message = Message::start('arbre');
+    $message = Babel::create('arbre');
     $babel = Accord::article('le', $message);
 
     $this->assertEquals("l'", $babel);
@@ -22,7 +22,7 @@ class FrenchAccordTests extends FrenchTests
 
   public function testAccordWoman()
   {
-    $message = Message::start('category');
+    $message = Babel::create('category');
     $babel = Accord::article('un', $message);
 
     $this->assertEquals("une", $babel);
