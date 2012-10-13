@@ -58,25 +58,25 @@ class Babel
   }
 
   /**
-   * Creates a "No X to display" message
+   * Creates a "No X Yed" message
    *
    * @param  string $noun The noun to use
    * @return string
    */
-  public static function nothing($noun)
+  public static function no($noun, $verb = 'display')
   {
     $message = Babel::create($noun);
 
-    $message->number(0)->noun($noun)->bit('to_display');
+    $message->number(0)->noun($noun)->bit('to')->verb($verb);
 
     return $message->speak();
   }
 
-  public static function many($number, $noun)
+  public static function many($number, $noun, $verb = 'display')
   {
     $message = Babel::create($noun);
 
-    $message->number($number)->noun($noun)->adjective('display');
+    $message->number($number)->noun($noun)->verb($verb);
 
     return $message->speak();
   }
@@ -98,7 +98,7 @@ class Babel
   ////////////////////////////////////////////////////////////////////
 
   /**
-   * Automatic transation
+   * Automatic transation and verb setting
    *
    * @param  string $method     The kind of word to translate
    * @param  string $parameters The key to get
@@ -106,12 +106,17 @@ class Babel
    */
   public static function __callStatic($method, $parameters)
   {
+    // Get a custom translation
     if (in_array($method, array('adjective', 'article', 'bit', 'noun', 'number', 'plural', 'state', 'verb'))) {
       $word = array_get($parameters, 0);
       if(is_null($word)) return false;
 
       return __('babel::'.$method.'s.'.$word)->get(null, $word);
     }
+
+    // Verb setting
+    $parameters[] = rtrim($method, 'd');
+    return call_user_func_array('static::many', $parameters);
   }
 
   ////////////////////////////////////////////////////////////////////

@@ -45,7 +45,7 @@ class FrenchBabelTests extends FrenchTests
 
   public function testNothing()
   {
-    $babel = Babel::nothing('user');
+    $babel = Babel::no('user');
 
     $this->assertEquals('Aucun utilisateur à afficher', $babel);
   }
@@ -62,5 +62,19 @@ class FrenchBabelTests extends FrenchTests
     $babel = Babel::many(12, 'category');
 
     $this->assertEquals('12 catégories affichées', $babel);
+  }
+
+  public function testManyDynamic()
+  {
+    $babel = Babel::update(12, 'category');
+
+    $this->assertEquals('12 catégories modifiées', $babel);
+  }
+
+  public function testManyPastDynamic()
+  {
+    $babel = Babel::created(0, 'category');
+
+    $this->assertEquals('Aucune catégorie créée', $babel);
   }
 }

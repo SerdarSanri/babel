@@ -27,10 +27,16 @@ class Accord
 
     if (Sentence::contains('{noun}{verb}')) {
       $message->pattern = str_replace('{verb}', '{state}{verb}', $message->pattern);
-      $message->sentence['state'] = Babel::state('normal');
-      $message->verb = Verb::past($message->verb);
+      $message->sentence['state'] = 'normal';
+      if($message->number) $message = Verb::present($message);
+      else $message = Verb::past($message);
     } elseif (Sentence::contains('{noun}({object})?{state}{verb}')) {
-      $message->verb = Verb::past($message->verb);
+      $message = Verb::past($message);
+    }
+
+    // Conjugate remaining state
+    if($message->state == 'normal') {
+      $message->state = Babel::state('past.normal');
     }
 
     return $message;
@@ -80,6 +86,7 @@ class Accord
     switch (Babel::lang()) {
       case 'fr':
         if($message->isFemale()) $verb .= 'e';
+        if($message->isPlural()) $verb .= 's';
         break;
     }
 

@@ -182,9 +182,9 @@ class Message
    */
   public function bit($bit)
   {
-    $this->pattern .= '{bit}';
+    $this->pattern .= '{' .$bit. '}';
 
-    $this->bit = Babel::bit($bit);
+    $this->$bit = Babel::bit($bit);
 
     return $this;
   }

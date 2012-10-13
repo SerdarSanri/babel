@@ -25,7 +25,7 @@ class Word
    * @var array
    */
   private static $vowels = array(
-    'a', 'e', 'i', 'o', 'u', 'y',
+    'a', 'e', 'i', 'o', 'u',
   );
 
   /**

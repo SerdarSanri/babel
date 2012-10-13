@@ -45,9 +45,37 @@ class EnglishBabelTests extends EnglishTests
 
   public function testNothing()
   {
-    $babel = Babel::nothing('user');
+    $babel = Babel::no('user');
 
     $this->assertEquals('No user to display', $babel);
+  }
+
+  public function testOne()
+  {
+    $babel = Babel::many(1, 'album');
+
+    $this->assertEquals('One album displayed', $babel);
+  }
+
+  public function testMany()
+  {
+    $babel = Babel::many(12, 'category');
+
+    $this->assertEquals('12 categories displayed', $babel);
+  }
+
+  public function testManyDynamic()
+  {
+    $babel = Babel::update(12, 'category');
+
+    $this->assertEquals('12 categories updated', $babel);
+  }
+
+  public function testManyPastDynamic()
+  {
+    $babel = Babel::created(0, 'category');
+
+    $this->assertEquals('No category created', $babel);
   }
 
 }

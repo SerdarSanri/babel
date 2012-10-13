@@ -14,10 +14,10 @@ Babel::restful('category', 'News', 'create', false)
 Babel::add('user')
 
 // Will return "No users to display"
-Babel::nothing('users')
+Babel::no('users', 'display')
 
-// Will return "15 categories displayed"
-Babel::many(15, 'category')
+// Will return "15 categories created"
+Babel::created(15, 'category')
 
 // You can also build custom sentences
 // This will output "A category was created"
