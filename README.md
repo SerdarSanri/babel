@@ -45,7 +45,7 @@ class Categories_Controller
       $message->state(true);
 
       // Do your usual stuff
-      $model = Model::find(4);
+      $model = new Model;
         $model->name = 'something';
         $model->foo  = 'bar';
       $model->save();
