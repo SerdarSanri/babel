@@ -78,6 +78,20 @@ class EnglishBabelTests extends EnglishTests
     $this->assertEquals('No category created', $babel);
   }
 
+  public function testContainerContains()
+  {
+    $message = Babel::contains(12, 'photo', 'category');
+
+    $this->assertEquals('12 photos in this category', $message);
+  }
+
+  public function testContainersContains()
+  {
+    $message = Babel::contains(12, 'photo', 'categories');
+
+    $this->assertEquals('12 photos in those categories', $message);
+  }
+
   public function testExtend()
   {
     Babel::extend('test', function($number, $verb) {

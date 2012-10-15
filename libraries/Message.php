@@ -70,7 +70,11 @@ class Message
    */
   public function __get($key)
   {
-    $result = array_get($this->sentence, $key);
+    $plural = Str::plural($key);
+
+    if($key == $plural) return array_get($this->sentence, $plural, array());
+
+    $result = array_get($this->sentence, $plural.'.'.$plural.'0');
 
     // If no noun has yet been set, fallback to the base concept
     if(!$result and $key == 'noun') $result = $this->core;
@@ -86,7 +90,10 @@ class Message
    */
   public function __set($key, $value)
   {
-    $this->sentence[$key] = $value;
+    $key     = Str::plural($key);
+    $pattern = $key.'0';
+
+    $this->sentence[$key][$pattern] = $value;
   }
 
   ////////////////////////////////////////////////////////////////////
@@ -101,8 +108,6 @@ class Message
    */
   public function noun($noun)
   {
-    $this->addPattern('noun');
-
     // Remove end if we passed a controller
     if(str_contains($noun, 'Controller')) {
       $noun = str_replace('_Controller', null, $noun);
@@ -112,7 +117,8 @@ class Message
     // Save noun as core concept if none was defined
     if(!$this->core) $this->core = $noun;
 
-    $this->noun = Babel::noun(Str::singular($noun));
+    $noun = Babel::noun(Str::singular($noun));
+    $this->addWord('noun', $noun);
 
     return $this;
   }
@@ -124,8 +130,6 @@ class Message
    */
   public function object($object)
   {
-    $this->addPattern('object');
-
     // Try to convert the object to a string
     if (is_object($object)) {
       $object = method_exists($object, '__toString')
@@ -133,16 +137,15 @@ class Message
         : $object->name;
     }
 
-    $this->object = '&laquo; ' .$object. ' &raquo;';
+    $object = '&laquo; ' .$object. ' &raquo;';
+    $this->addWord('object', $object);
 
     return $this;
   }
 
   public function article($article)
   {
-    $this->addPattern('article');
-
-    $this->article = Babel::article($article);
+    $this->addWord('article', Babel::article($article));
 
     return $this;
   }
@@ -154,9 +157,7 @@ class Message
    */
   public function state($state)
   {
-    $this->addPattern('state');
-
-    $this->state = Babel::state($state);
+    $this->addWord('state', Babel::state($state));
 
     return $this;
   }
@@ -168,9 +169,7 @@ class Message
    */
   public function number($number)
   {
-    $this->addPattern('number');
-
-    $this->number = Babel::number($number);
+    $this->addWord('number', Babel::number($number));
 
     return $this;
   }
@@ -182,9 +181,7 @@ class Message
    */
   public function bit($bit)
   {
-    $this->addPattern($bit);
-
-    $this->$bit = Babel::bit($bit);
+    $this->addWord('bit', Babel::bit($bit));
 
     return $this;
   }
@@ -196,8 +193,6 @@ class Message
    */
   public function adjective($adjective)
   {
-    $this->addPattern('adjective');
-
     $adjective = Babel::adjective($adjective);
 
     // Conjugates if a noun precedes the verb
@@ -205,7 +200,7 @@ class Message
       $adjective = Accord::adjective($adjective, $this);
     }
 
-    $this->adjective = $adjective;
+    $this->addWord('adjective', $adjective);
 
     return $this;
   }
@@ -217,14 +212,13 @@ class Message
    */
   public function verb($verb)
   {
-    $this->addPattern('verb');
-
     // If we passed a controller's action
     if(str_contains($verb, '_')) {
       $verb = array_get(explode('_', $verb), 1);
     }
 
-    $this->verb =  Babel::verb($verb);
+    $verb = Babel::verb($verb);
+    $this->addWord('verb', $verb);
 
     return $this;
   }
@@ -263,15 +257,10 @@ class Message
     $message = Accord::accord($this);
 
     // Reorder the sentence to match the pattern
-    $message = Sentence::reorder($message);
+    //$message = Sentence::reorder($message);
 
     // Replace patterns with their value
-    $sentence = strtr($message->pattern, $message->sentence);
-
-    // Filter leftover spaces
-    $sentence = str_replace('  ', ' ', $sentence);
-    $sentence = ucfirst(trim($sentence));
-    $sentence = str_replace("' ", "'", $sentence);
+    $sentence = Sentence::createFrom($message->pattern, $message->sentence);
 
     static::$message = null;
 
@@ -297,9 +286,32 @@ class Message
    *
    * @param string $pattern The part to add
    */
-  public function addPattern($pattern)
+  public function addWord($type, $value)
   {
-    $this->pattern .= ' ' .$pattern;
+    $type = Str::plural($type);
+
+    // Get count
+    $count = array_get($this->sentence, $type, array());
+    $count = sizeof($count);
+
+    // Save word
+    $this->sentence[$type][$type.$count] = $value;
+
+    // Add pattern
+    $this->pattern .= ' ' .$type.$count;
+
+    return $type;
+  }
+
+  /**
+   * Set a part of a sentence
+   *
+   * @param string $key   The word pattern
+   * @param string $value Its value
+   */
+  public function setWord($key, $value)
+  {
+    $this->sentence[substr($key, 0, -1)][$key] = $value;
   }
 
   public function isFemale()
@@ -307,10 +319,12 @@ class Message
     return Word::isFemale($this->core);
   }
 
-  public function isPlural()
+  public function isPlural($noun = null)
   {
+    if(!$noun) $noun = $this->core;
+
     if($this->number) return is_int($this->number) and $this->number > 1;
-    elseif(Word::isPlural($this->core)) return true;
+    elseif(Word::isPlural($noun)) return true;
     return false;
   }
 }

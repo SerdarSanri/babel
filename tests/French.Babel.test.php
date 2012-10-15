@@ -78,6 +78,19 @@ class FrenchBabelTests extends FrenchTests
     $this->assertEquals('Aucune catégorie créée', $babel);
   }
 
+  public function testContainerContains()
+  {
+    $message = Babel::contains(12, 'photo', 'category');
+
+    $this->assertEquals('12 photos dans cette catégorie', $message);
+  }
+
+  public function testContainersContains()
+  {
+    $message = Babel::contains(12, 'photo', 'categories');
+
+    $this->assertEquals('12 photos dans ces catégories', $message);
+  }
   public function testExtend()
   {
     Babel::extend('test', function($number, $verb) {

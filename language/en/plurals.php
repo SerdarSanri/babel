@@ -1,3 +1,4 @@
 <?php return array(
-  'a' => '',
+  'a'    => '',
+  'this' => 'those',
 );

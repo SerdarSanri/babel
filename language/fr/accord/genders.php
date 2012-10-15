@@ -5,10 +5,12 @@
   ),
 
   'irregular' => array(
+    'cet' => 'cette',
     'le' => 'la',
   ),
 
   'invariable' => array(
+    'ces',
     'la',
   ),
 );

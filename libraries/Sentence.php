@@ -18,7 +18,15 @@ class Sentence
    */
   public static function contains($regex)
   {
-    return preg_match('/'.$regex.'/', Message::current()->pattern);
+    $pattern = Message::current()->pattern;
+    $regex = preg_replace('/([a-z]+)( )?/', '($1\\\\d?)$2', $regex);
+    preg_match_all('/'.$regex.'/', $pattern, $matches);
+
+    if(!empty($matches[0][0])) {
+      return explode(' ', $matches[0][0]);
+    }
+
+    return !empty($matches[0]);
   }
 
   /**
@@ -43,7 +51,7 @@ class Sentence
     if($message->pattern == Sentence::asPattern($message)) return $message;
 
     // Transform the pattern into an array and reorder according to it
-    preg_match_all('/([a-z]+) ?/', $message->pattern, $pattern);
+    preg_match_all('/([a-z]+[0-9]{0,}) ?/', $message->pattern, $pattern);
     foreach ($pattern[1] as $p) {
       $_sentence[$p] = $message->$p;
     }
@@ -52,6 +60,31 @@ class Sentence
     $message->sentence = $_sentence;
 
     return $message;
+  }
+
+  public static function createFrom($pattern, $_sentence)
+  {
+    // Flatten sentence arrayfunction flatten(array $array) {
+    foreach($_sentence as $type => $words) {
+      foreach($words as $key => $word) {
+        $sentence[$key] = $word;
+      }
+    }
+
+    // Clean sentence
+    $sentence = strtr($pattern, $sentence);
+
+    return static::clean($sentence);
+  }
+
+
+  private static function clean($sentence)
+  {
+    $sentence = str_replace('  ', ' ', $sentence);
+    $sentence = ucfirst(trim($sentence));
+    $sentence = str_replace("' ", "'", $sentence);
+
+    return $sentence;
   }
 
 }

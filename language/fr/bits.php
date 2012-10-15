@@ -1,4 +1,5 @@
 <?php return array(
-  'to'       => 'à',
+  'in'       => 'dans',
   'recently' => 'récemment',
+  'to'       => 'à',
 );

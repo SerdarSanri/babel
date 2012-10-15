@@ -1,4 +1,5 @@
 <?php return array(
-  'a'   => 'un',
-  'the' => 'le',
+  'a'    => 'un',
+  'the'  => 'le',
+  'this' => 'cet',
 );
