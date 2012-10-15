@@ -17,7 +17,9 @@ class Word
    * @var array
    */
   private static $female = array(
-    'category', 'poire',
+    'category',
+    'photo',
+    'poire',
   );
 
   /**
