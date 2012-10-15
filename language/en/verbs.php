@@ -3,6 +3,7 @@
   'create'  => 'create',
   'delete'  => 'delete',
   'display' => 'display',
-  'update'  => 'update',
   'return'  => 'return',
+  'submit'  => 'submit',
+  'update'  => 'update',
 );

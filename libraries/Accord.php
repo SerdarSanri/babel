@@ -12,6 +12,12 @@ use \Str;
 class Accord
 {
 
+  /**
+   * Accord the different parts of a message between them
+   *
+   * @param  Message $message The message to accord
+   * @return Message          Accorded message
+   */
   public static function accord(Message $message)
   {
     // Look for common sentences patterns
@@ -42,10 +48,13 @@ class Accord
     return $message;
   }
 
+  ////////////////////////////////////////////////////////////////////
+  //////////////////////////////// ACCORDERS /////////////////////////
+  ////////////////////////////////////////////////////////////////////
+
   /**
-   * Accord an article to its noun
+   * Accord an article
    *
-   * @param  string $noun    A noun
    * @param  string $article An article
    * @return string          An accorded article
    */
@@ -58,7 +67,7 @@ class Accord
 
     switch (Babel::lang()) {
       case 'fr':
-        if($message->isFemale()) $article = Accord\Genderize::female($article);
+        if($message->isFemale()) $article = Accord\Gender::female($article);
         if (starts_with($article, 'l')) {
           if(Word::startsWithVowel($message->noun)) $article = substr($article, 0, -1)."'";
         }
@@ -74,7 +83,7 @@ class Accord
   }
 
   /**
-   * Accord a verb to its noun
+   * Accord a verb
    *
    * @param  string $verb A verb
    * @return string       An accorded verb
@@ -93,6 +102,12 @@ class Accord
     return $verb;
   }
 
+  /**
+   * Accord a noun
+   *
+   * @param  string $noun A noun
+   * @return string       An accorded noun
+   */
   public static function noun($noun)
   {
     $message = Message::current();
@@ -107,6 +122,12 @@ class Accord
     return $noun;
   }
 
+  /**
+   * Accord a number
+   *
+   * @param  string $number A number
+   * @return string         An accorded number
+   */
   public static function number($number)
   {
     $message = Message::current();
@@ -122,6 +143,12 @@ class Accord
     return $number;
   }
 
+  /**
+   * Accord an adjective
+   *
+   * @param  string $adjective An adjective
+   * @return string            An accorded adjective
+   */
   public static function adjective($adjective)
   {
     $message = Message::current();
