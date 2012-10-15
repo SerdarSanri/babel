@@ -23,4 +23,11 @@ class FrenchMessageTest extends FrenchTests
 
     $this->assertEquals('L\'utilisateur a été créé', $message->speak());
   }
+
+  public function testNothingRecently()
+  {
+    $message = Babel::create()->number(0)->noun('document')->verb('create')->bit('recently');
+
+    $this->assertEquals('Aucun document créé récemment', $message->speak());
+  }
 }

@@ -3,7 +3,7 @@ use Babel\Babel;
 
 class FrenchVerbTest extends FrenchTests
 {
-  public function testSubmit()
+  public function testIrregular()
   {
     $babel = Babel::create()->article('the')->noun('document')->verb('submit')->speak();
 

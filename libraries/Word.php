@@ -77,4 +77,14 @@ class Word
 
     return in_array($letter, static::$vowels);
   }
+
+  /**
+   * Mark a word as being female
+   *
+   * @param string $word A word
+   */
+  public static function setWordAsFemale($word)
+  {
+    static::$female[] = $word;
+  }
 }

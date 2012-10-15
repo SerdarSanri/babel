@@ -11,6 +11,12 @@ namespace Babel;
 class Babel
 {
   /**
+   * A list of extended Babel sentences
+   * @var array
+   */
+  private static $extend = array();
+
+  /**
    * Creates a new instance of the Message class
    *
    * @param  string $noun A noun
@@ -72,6 +78,14 @@ class Babel
     return $message->speak();
   }
 
+  /**
+   * Creates a "X Y were Zed" message
+   *
+   * @param  integer $number The number of the noun
+   * @param  string  $noun   The noun to use
+   * @param  string  $verb   The verb to use
+   * @return string
+   */
   public static function many($number, $noun, $verb = 'display')
   {
     $message = Babel::create($noun);
@@ -79,6 +93,18 @@ class Babel
     $message->number($number)->noun($noun)->verb($verb);
 
     return $message->speak();
+  }
+
+  /**
+   * Extends Babels precreated sentences
+   *
+   * @param  string  $name    The name of the new sentence
+   * @param  Closure $closure Closure with arguments
+   * @return mixed            A message object or a string
+   */
+  public static function extend($name, \Closure $closure)
+  {
+    static::$extend[$name] = $closure;
   }
 
   /**
@@ -106,6 +132,11 @@ class Babel
    */
   public static function __callStatic($method, $parameters)
   {
+    // Check for an extended sentence
+    if(isset(static::$extend[$method])) {
+      return call_user_func_array(static::$extend[$method], $parameters);
+    }
+
     // Get a custom translation
     if (in_array($method, array('adjective', 'article', 'bit', 'noun', 'number', 'plural', 'state', 'verb'))) {
       $word = array_get($parameters, 0);

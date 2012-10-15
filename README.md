@@ -25,6 +25,18 @@ $message = Babel::create()
   ->article('a')
   ->noun('category')
   ->verb('create')
+
+// And store them to reuse them multiple times
+Babel::extend('created', function($noun) {
+  return Babel::create()
+  ->article('a')
+  ->noun($noun)
+  ->verb('create')
+  ->speak();
+});
+
+// Will output "A category was created"
+Babel::created('category');
 ```
 
 Ok now comes the question on everyone's lips. And I know what it is.

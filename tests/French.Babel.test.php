@@ -77,4 +77,19 @@ class FrenchBabelTests extends FrenchTests
 
     $this->assertEquals('Aucune catégorie créée', $babel);
   }
+
+  public function testExtend()
+  {
+    Babel::extend('test', function($number, $verb) {
+      return Babel::create()
+        ->number($number)
+        ->noun('categories')
+        ->verb($verb)
+        ->speak();
+    });
+
+    $babel = Babel::test(12, 'create');
+
+    $this->assertEquals('12 catégories créées', $babel);
+  }
 }
