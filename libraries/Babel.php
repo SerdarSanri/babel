@@ -95,6 +95,15 @@ class Babel
     return $message->speak();
   }
 
+  public static function contains($number, $noun, $container)
+  {
+    $message = Babel::create($noun);
+
+    $message->number($number)->noun($noun)->bit('in')->noun($container);
+
+    return $message->speak();
+  }
+
   /**
    * Extends Babels precreated sentences
    *

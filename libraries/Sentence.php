@@ -29,7 +29,7 @@ class Sentence
    */
   public static function asPattern(Message $message)
   {
-    return '{'.implode('}{', array_keys($message->sentence)).'}';
+    return implode(' ', array_keys($message->sentence));
   }
 
   /**
@@ -43,7 +43,7 @@ class Sentence
     if($message->pattern == Sentence::asPattern($message)) return $message;
 
     // Transform the pattern into an array and reorder according to it
-    preg_match_all('/{([a-z]+)}/', $message->pattern, $pattern);
+    preg_match_all('/([a-z]+) ?/', $message->pattern, $pattern);
     foreach ($pattern[1] as $p) {
       $_sentence[$p] = $message->$p;
     }

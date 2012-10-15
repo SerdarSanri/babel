@@ -101,7 +101,7 @@ class Message
    */
   public function noun($noun)
   {
-    $this->pattern .= '{noun}';
+    $this->addPattern('noun');
 
     // Remove end if we passed a controller
     if(str_contains($noun, 'Controller')) {
@@ -124,7 +124,7 @@ class Message
    */
   public function object($object)
   {
-    $this->pattern .= '{object}';
+    $this->addPattern('object');
 
     // Try to convert the object to a string
     if (is_object($object)) {
@@ -133,14 +133,14 @@ class Message
         : $object->name;
     }
 
-    $this->sentence['object'] = '&laquo; ' .$object. ' &raquo;';
+    $this->object = '&laquo; ' .$object. ' &raquo;';
 
     return $this;
   }
 
   public function article($article)
   {
-    $this->pattern .= '{article}';
+    $this->addPattern('article');
 
     $this->article = Babel::article($article);
 
@@ -154,7 +154,7 @@ class Message
    */
   public function state($state)
   {
-    $this->pattern .= '{state}';
+    $this->addPattern('state');
 
     $this->state = Babel::state($state);
 
@@ -168,7 +168,7 @@ class Message
    */
   public function number($number)
   {
-    $this->pattern .= '{number}';
+    $this->addPattern('number');
 
     $this->number = Babel::number($number);
 
@@ -182,7 +182,7 @@ class Message
    */
   public function bit($bit)
   {
-    $this->pattern .= '{' .$bit. '}';
+    $this->addPattern($bit);
 
     $this->$bit = Babel::bit($bit);
 
@@ -196,12 +196,12 @@ class Message
    */
   public function adjective($adjective)
   {
-    $this->pattern .= '{adjective}';
+    $this->addPattern('adjective');
 
     $adjective = Babel::adjective($adjective);
 
     // Conjugates if a noun precedes the verb
-    if (isset($this->sentence['noun'])) {
+    if (isset($this->noun)) {
       $adjective = Accord::adjective($adjective, $this);
     }
 
@@ -217,7 +217,7 @@ class Message
    */
   public function verb($verb)
   {
-    $this->pattern .= '{verb}';
+    $this->addPattern('verb');
 
     // If we passed a controller's action
     if(str_contains($verb, '_')) {
@@ -265,9 +265,12 @@ class Message
     // Reorder the sentence to match the pattern
     $message = Sentence::reorder($message);
 
-    // Filter the sentence and implode it as a string
-    $sentence = array_filter($message->sentence);
-    $sentence = ucfirst(implode(' ', $sentence));
+    // Replace patterns with their value
+    $sentence = strtr($message->pattern, $message->sentence);
+
+    // Filter leftover spaces
+    $sentence = str_replace('  ', ' ', $sentence);
+    $sentence = ucfirst(trim($sentence));
     $sentence = str_replace("' ", "'", $sentence);
 
     static::$message = null;
@@ -288,6 +291,16 @@ class Message
   ////////////////////////////////////////////////////////////////////
   /////////////////////////////// HELPERS ////////////////////////////
   ////////////////////////////////////////////////////////////////////
+
+  /**
+   * Add something to the current pattern
+   *
+   * @param string $pattern The part to add
+   */
+  public function addPattern($pattern)
+  {
+    $this->pattern .= ' ' .$pattern;
+  }
 
   public function isFemale()
   {

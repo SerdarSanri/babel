@@ -23,20 +23,20 @@ class Accord
     // Look for common sentences patterns
     $pattern = $message->pattern;
 
-    if (Sentence::contains('{number}{noun}')) {
+    if (Sentence::contains('number noun')) {
       $message->number  = Accord::number($message->number);
       $message->noun    = Accord::noun($message->noun);
-    } elseif (Sentence::contains('{article}{noun}')) {
+    } elseif (Sentence::contains('article noun')) {
       $message->article = Accord::article($message->article);
       $message->noun    = Accord::noun($message->noun);
     }
 
-    if (Sentence::contains('{noun}{verb}')) {
-      $message->pattern = str_replace('{verb}', '{state}{verb}', $message->pattern);
+    if (Sentence::contains('noun verb')) {
+      $message->pattern = str_replace('verb', 'state verb', $message->pattern);
       $message->sentence['state'] = 'normal';
       if($message->number) $message = Verb::present($message);
       else $message = Verb::past($message);
-    } elseif (Sentence::contains('{noun}({object})?{state}{verb}')) {
+    } elseif (Sentence::contains('noun( object)? state verb')) {
       $message = Verb::past($message);
     }
 
