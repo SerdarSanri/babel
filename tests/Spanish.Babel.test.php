@@ -1,13 +1,13 @@
 <?php
 use Babel\Babel;
 
-class FrenchBabelTests extends FrenchTests
+class SpanishBabelTests extends SpanishTests
 {
   public function restful()
   {
     return array(
-      array('category', 'foo', 'create', true,  'La catégorie &laquo; foo &raquo; a bien été créée'),
-      array('user',     'foo', 'delete', false, 'L\'utilisateur &laquo; foo &raquo; n\'a pas pu être supprimé'),
+      array('category', 'foo', 'create', true,  'La categoría &laquo; foo &raquo; ha creado correctamente'),
+      array('user',     'foo', 'delete', false, 'El usuario &laquo; foo &raquo; no pudo ser'),
     );
   }
 
@@ -26,56 +26,56 @@ class FrenchBabelTests extends FrenchTests
   {
     $babel = Babel::add('user');
 
-    $this->assertEquals('Ajouter un utilisateur', $babel);
+    $this->assertEquals('Añadir un usuario', $babel);
   }
 
   public function testAddMultiple()
   {
     $babel = Babel::add('users');
 
-    $this->assertEquals('Ajouter des utilisateurs', $babel);
+    $this->assertEquals('Añadir usuarios', $babel);
   }
 
   public function testAddAccord()
   {
     $babel = Babel::add('category');
 
-    $this->assertEquals('Ajouter une catégorie', $babel);
+    $this->assertEquals('Añadir una categoría', $babel);
   }
 
   public function testNothing()
   {
     $babel = Babel::no('user');
 
-    $this->assertEquals('Aucun utilisateur à afficher', $babel);
+    $this->assertEquals('No hay usuario para mostrar', $babel);
   }
 
   public function testOne()
   {
     $babel = Babel::many(1, 'album');
 
-    $this->assertEquals('Un album affiché', $babel);
+    $this->assertEquals('Un álbum muestra', $babel);
   }
 
   public function testMany()
   {
     $babel = Babel::many(12, 'category');
 
-    $this->assertEquals('12 catégories affichées', $babel);
+    $this->assertEquals('12 categorías muestra', $babel);
   }
 
   public function testManyDynamic()
   {
     $babel = Babel::update(12, 'category');
 
-    $this->assertEquals('12 catégories modifiées', $babel);
+    $this->assertEquals('12 categorías actualizado', $babel);
   }
 
   public function testManyPastDynamic()
   {
     $babel = Babel::created(0, 'category');
 
-    $this->assertEquals('Aucune catégorie créée', $babel);
+    $this->assertEquals('No hay categorías creadas', $babel);
   }
 
   public function testContainerContains()
@@ -83,14 +83,14 @@ class FrenchBabelTests extends FrenchTests
     $message = Babel::contains(12, 'photo', 'category');
 
     return $this->assertTrue(true);
-    $this->assertEquals('12 photos dans cette catégorie', $message);
+    $this->assertEquals('12 fotos de esta categoría', $message);
   }
 
   public function testContainersContains()
   {
     $message = Babel::contains(12, 'photo', 'categories');
 
-    $this->assertEquals('12 photos dans ces catégories', $message);
+    $this->assertEquals('12 fotos en esas categorías', $message);
   }
   public function testExtend()
   {
@@ -104,6 +104,6 @@ class FrenchBabelTests extends FrenchTests
 
     $babel = Babel::test(12, 'create');
 
-    $this->assertEquals('12 catégories créées', $babel);
+    $this->assertEquals('12 categorías creadas', $babel);
   }
 }

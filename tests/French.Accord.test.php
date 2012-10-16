@@ -6,25 +6,22 @@ class FrenchAccordTests extends FrenchTests
 {
   public function testAccordArticleNormal()
   {
-    $message = Babel::create('poire');
-    $babel = Accord::article('la', $message);
+    $babel = Babel::create()->article('the')->noun('category');
 
-    $this->assertEquals("la", $babel);
+    $this->assertEquals("La catégorie", $babel->speak());
   }
 
   public function testAccordArticle()
   {
-    $message = Babel::create('arbre');
-    $babel = Accord::article('le', $message);
+    $babel = Babel::create()->article('the')->noun('arbre');
 
-    $this->assertEquals("l'", $babel);
+    $this->assertEquals("L'arbre", $babel->speak());
   }
 
   public function testAccordWoman()
   {
-    $message = Babel::create('category');
-    $babel = Accord::article('un', $message);
+    $babel = Babel::create()->article('a')->noun('category');
 
-    $this->assertEquals("une", $babel);
+    $this->assertEquals("Une catégorie", $babel->speak());
   }
 }

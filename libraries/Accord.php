@@ -65,11 +65,11 @@ class Accord
     $message = Message::current();
 
     // Set article to plural if necessary
-    if($message->isPlural()) $article = Babel::plural($article);
+    if($message->isPlural()) $article = Accord\Number::plural($article);
+    if($message->isFemale()) $article = Accord\Gender::female($article);
 
     switch (Babel::lang()) {
       case 'fr':
-        if($message->isFemale()) $article = Accord\Gender::female($article);
         if (starts_with($article, 'l')) {
           if(Word::startsWithVowel($message->noun)) $article = substr($article, 0, -1)."'";
         }
@@ -93,13 +93,13 @@ class Accord
   public static function verb($verb)
   {
     $message = Message::current();
+    if(Babel::lang() == 'en') return $verb;
 
-    switch (Babel::lang()) {
-      case 'fr':
-        if($message->isFemale()) $verb .= 'e';
-        if($message->isPlural()) $verb .= 's';
-        break;
-    }
+    if(Babel::lang() == 'sp') var_dump($verb);
+    if($message->isPlural()) $verb = Accord\Number::plural($verb);
+    if(Babel::lang() == 'sp') var_dump($verb);
+    if($message->isFemale()) $verb = Accord\Gender::female($verb);
+    if(Babel::lang() == 'sp') var_dump($verb);
 
     return $verb;
   }
@@ -113,13 +113,7 @@ class Accord
   public static function noun($noun)
   {
     $message = Message::current();
-
-    switch (Babel::lang()) {
-      case 'fr':
-      case 'en':
-        if($message->isPlural()) $noun = Str::plural($noun);
-        break;
-    }
+    if($message->isPlural()) $noun = Accord\Number::plural($noun);
 
     return $noun;
   }

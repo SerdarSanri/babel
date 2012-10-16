@@ -5,22 +5,21 @@ use Babel\Babel;
 include 'start.php';
 include 'EnglishTests.php';
 include 'FrenchTests.php';
+include 'SpanishTests.php';
 
 class EnglishAccordTests extends EnglishTests
 {
   public function testAccordArticleNormal()
   {
-    $message = Babel::create('pear');
-    $babel = Accord::article('a', $message);
+    $babel = Babel::create()->article('a')->noun('category');
 
-    $this->assertEquals("a", $babel);
+    $this->assertEquals('A category', $babel->speak());
   }
 
   public function testAccordArticle()
   {
-    $message = Babel::create('apricot');
-    $babel = Accord::article('a', $message);
+    $babel = Babel::create()->article('a')->noun('apricot');
 
-    $this->assertEquals("an", $babel);
+    $this->assertEquals('An apricot', $babel->speak());
   }
 }

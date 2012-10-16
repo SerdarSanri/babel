@@ -35,7 +35,7 @@ abstract class Accorder
     $irregular = Lang::line('babel::accord/'.static::$repository.'.irregular')->get();
 
     if(isset($irregular[$word])) return $irregular[$word];
-    else return false;
+    else return null;
   }
 
   /**
@@ -47,11 +47,12 @@ abstract class Accorder
    */
   protected static function getWord($word, $patterns = 'patterns')
   {
+
     // If the world is invariable, don't touch it
     if(static::invariable($word)) return $word;
 
     // If it's irregular, return the correct form
-    if(static::irregular($word)) return static::irregular($word);
+    if(!is_null(static::irregular($word))) return static::irregular($word);
 
     // Else look for patterns ans replace
     foreach (Lang::line('babel::accord/' .static::$repository. '.'.$patterns)->get() as $pattern => $replace) {
@@ -59,6 +60,9 @@ abstract class Accorder
         return preg_replace($pattern, $replace, $word);
       }
     }
+
+    // Special case for english language to use Laravel's plural function
+    if(\Babel::lang() == 'en' and static::$repository == 'plurals') return \Str::plural($word);
 
     return $word;
   }

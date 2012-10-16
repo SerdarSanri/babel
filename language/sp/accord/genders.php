@@ -1,17 +1,15 @@
 <?php return array(
 
   'feminize' => array(
-    '/és$/' => 'ées',
-    '/(.+)/' => '$1e',
+    '/das/' => 'das',
+    '/(.+)/' => '$1a',
   ),
 
   'irregular' => array(
-    'cet' => 'cette',
-    'le' => 'la',
+    'el' => 'la',
   ),
 
   'invariable' => array(
-    'ces',
-    'la',
+    'muestran',
   ),
 );
