@@ -23,17 +23,25 @@ class Accord
     // Look for common sentences patterns
     $pattern = $message->pattern;
 
+    if(Sentence::contains('^nouns$')) {
+      $message->noun = Accord::noun($message->noun);
+    }
+
     if ($contains = Sentence::contains('numbers nouns( verbs)?')) {
       if(sizeof($contains) == 2) list($number, $noun) = $contains;
       else list($number, $noun, $verb) = $contains;
 
       $message->setWord($number, Accord::number($message->numbers[$number]));
-      $message->setWord($noun, Accord::noun($message->nouns[$noun]));
+      $message->setWord($noun,   Accord::noun($message->nouns[$noun]));
     }
 
     if (list($article, $noun) = Sentence::contains('articles nouns')) {
       $message->article = Accord::article($message->article);
       $message->setWord($noun, Accord::noun($message->nouns[$noun]));
+    }
+
+    if(Sentence::contains('verbs nouns')) {
+      $message = Verb::past($message);
     }
 
     if (Sentence::contains('nouns verbs')) {

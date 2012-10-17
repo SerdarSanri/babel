@@ -298,7 +298,8 @@ class Message
     $this->sentence[$type][$type.$count] = $value;
 
     // Add pattern
-    $this->pattern .= ' ' .$type.$count;
+    if(!empty($this->pattern)) $this->pattern .= ' ';
+    $this->pattern .= $type.$count;
 
     return $type;
   }

@@ -1,5 +1,6 @@
 <?php return array(
   'add'     => 'add',
+  'attach'  => 'attach',
   'create'  => 'create',
   'delete'  => 'delete',
   'display' => 'display',
