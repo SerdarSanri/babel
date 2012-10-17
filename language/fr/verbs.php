@@ -4,6 +4,7 @@
   'delete'  => 'supprimer',
   'display' => 'afficher',
   'edit'    => 'modifier',
+  'link'    => 'lier',
   'return'  => 'retourner',
   'submit'  => 'soumettre',
   'update'  => 'modifier',

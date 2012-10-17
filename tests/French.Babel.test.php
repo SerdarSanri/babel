@@ -50,6 +50,13 @@ class FrenchBabelTests extends FrenchTests
     $this->assertEquals('Aucun utilisateur à afficher', $babel);
   }
 
+  public function testNothingGeneral()
+  {
+    $babel = Babel::no('file', 'link');
+
+    $this->assertEquals('Aucun fichier lié', $babel);
+  }
+
   public function testOne()
   {
     $babel = Babel::many(1, 'album', 'display');

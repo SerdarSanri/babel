@@ -74,7 +74,8 @@ class Babel
     $message = Babel::create($noun);
 
     $message->number(0)->noun($noun);
-    if($verb) $message->bit('to')->verb($verb);
+    if($verb == 'display') $message->bit('to');
+    if($verb) $message->verb($verb);
 
     return $message->speak();
   }

@@ -4,6 +4,7 @@
   'delete'  => 'delete',
   'display' => 'display',
   'edit'    => 'edit',
+  'link'    => 'link',
   'return'  => 'return',
   'submit'  => 'submit',
   'update'  => 'update',

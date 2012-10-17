@@ -50,6 +50,13 @@ class SpanishBabelTests extends SpanishTests
     $this->assertEquals('No hay usuario para mostrar', $babel);
   }
 
+  public function testNothingGeneral()
+  {
+    $babel = Babel::no('file', 'link');
+
+    $this->assertEquals('No hay fichero vinculado', $babel);
+  }
+
   public function testOne()
   {
     $babel = Babel::many(1, 'album', 'display');

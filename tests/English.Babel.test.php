@@ -50,6 +50,13 @@ class EnglishBabelTests extends EnglishTests
     $this->assertEquals('No user to display', $babel);
   }
 
+  public function testNothingGeneral()
+  {
+    $babel = Babel::no('file', 'link');
+
+    $this->assertEquals('No file linked', $babel);
+  }
+
   public function testOne()
   {
     $babel = Babel::many(1, 'album', 'display');

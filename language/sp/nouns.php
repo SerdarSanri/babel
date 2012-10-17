@@ -3,6 +3,7 @@
   'category' => 'categoría',
   'document' => 'documento',
   'event'    => 'evento',
+  'file'     => 'fichero',
   'photo'    => 'foto',
   'result'   => 'resultado',
   'user'     => 'usuario',
