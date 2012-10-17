@@ -3,6 +3,7 @@
   'create'  => 'créer',
   'delete'  => 'supprimer',
   'display' => 'afficher',
+  'edit'    => 'modifier',
   'return'  => 'retourner',
   'submit'  => 'soumettre',
   'update'  => 'modifier',
