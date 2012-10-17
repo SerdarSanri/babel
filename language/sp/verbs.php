@@ -7,6 +7,7 @@
   'edit'    => 'editar',
   'link'    => 'vincular',
   'return'  => 'volver',
+  'search'  => 'buscar',
   'submit'  => 'presentar',
   'update'  => 'actualizar',
   'valid'   => 'validar',

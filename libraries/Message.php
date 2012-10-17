@@ -57,6 +57,7 @@ class Message
   {
     $this->core = $noun;
 
+    if($noun) $this->noun($noun);
     if($verb) $this->verb($verb);
 
     return $this;

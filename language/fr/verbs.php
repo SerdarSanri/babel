@@ -7,6 +7,7 @@
   'edit'    => 'modifier',
   'link'    => 'lier',
   'return'  => 'retourner',
+  'search'  => 'rechercher',
   'submit'  => 'soumettre',
   'update'  => 'modifier',
   'valid'   => 'valider',

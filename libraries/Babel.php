@@ -42,7 +42,7 @@ class Babel
   {
     $state  = $state ? 'success' : 'error';
 
-    $message = Babel::create($noun)->article('the')->noun($noun);
+    $message = Babel::create()->article('the')->noun($noun);
     if($object) $message->object($object);
     $message->state($state)->verb($verb);
 
@@ -57,7 +57,7 @@ class Babel
    */
   public static function add($noun)
   {
-    $message = Babel::create($noun);
+    $message = Babel::create();
     $message->verb('add')->article('a')->noun($noun);
 
     return $message->speak();
@@ -71,7 +71,7 @@ class Babel
    */
   public static function no($noun, $verb = null)
   {
-    $message = Babel::create($noun);
+    $message = Babel::create();
 
     $message->number(0)->noun($noun);
     if($verb == 'display') $message->bit('to');
@@ -90,7 +90,7 @@ class Babel
    */
   public static function many($number, $noun, $verb = null)
   {
-    $message = Babel::create($noun);
+    $message = Babel::create();
 
     $message->number($number)->noun($noun);
     if($verb) $message->verb($verb);
@@ -100,7 +100,7 @@ class Babel
 
   public static function contains($number, $noun, $container)
   {
-    $message = Babel::create($noun);
+    $message = Babel::create();
 
     $message->number($number)->noun($noun)->bit('in')->article('this')->noun($container);
 

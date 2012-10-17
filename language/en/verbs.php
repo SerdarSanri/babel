@@ -7,6 +7,7 @@
   'edit'    => 'edit',
   'link'    => 'link',
   'return'  => 'return',
+  'search'  => 'search',
   'submit'  => 'submit',
   'update'  => 'update',
   'valid'   => 'validate',
