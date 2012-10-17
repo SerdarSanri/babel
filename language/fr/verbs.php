@@ -7,4 +7,5 @@
   'return'  => 'retourner',
   'submit'  => 'soumettre',
   'update'  => 'modifier',
+  'valid'   => 'valider',
 );

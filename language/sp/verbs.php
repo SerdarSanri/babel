@@ -7,4 +7,5 @@
   'return'  => 'volver',
   'submit'  => 'presentar',
   'update'  => 'actualizar',
+  'valid'   => 'validar',
 );
