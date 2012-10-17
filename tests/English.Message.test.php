@@ -30,4 +30,11 @@ class EnglishMessageTest extends EnglishTests
 
     $this->assertEquals('No document created recently', $message->speak());
   }
+
+  public function testResults()
+  {
+    $message = Babel::create()->number(4)->noun('result');
+
+    $this->assertEquals('4 results', $message->speak());
+  }
 }

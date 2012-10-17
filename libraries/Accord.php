@@ -23,7 +23,10 @@ class Accord
     // Look for common sentences patterns
     $pattern = $message->pattern;
 
-    if (list($number, $noun, $verb) = Sentence::contains('numbers nouns (verbs)?')) {
+    if ($contains = Sentence::contains('numbers nouns( verbs)?')) {
+      if(sizeof($contains) == 2) list($number, $noun) = $contains;
+      else list($number, $noun, $verb) = $contains;
+
       $message->setWord($number, Accord::number($message->numbers[$number]));
       $message->setWord($noun, Accord::noun($message->nouns[$noun]));
     }
@@ -95,11 +98,8 @@ class Accord
     $message = Message::current();
     if(Babel::lang() == 'en') return $verb;
 
-    if(Babel::lang() == 'sp') var_dump($verb);
     if($message->isPlural()) $verb = Accord\Number::plural($verb);
-    if(Babel::lang() == 'sp') var_dump($verb);
     if($message->isFemale()) $verb = Accord\Gender::female($verb);
-    if(Babel::lang() == 'sp') var_dump($verb);
 
     return $verb;
   }
