@@ -69,11 +69,12 @@ class Babel
    * @param  string $noun The noun to use
    * @return string
    */
-  public static function no($noun, $verb = 'display')
+  public static function no($noun, $verb = null)
   {
     $message = Babel::create($noun);
 
-    $message->number(0)->noun($noun)->bit('to')->verb($verb);
+    $message->number(0)->noun($noun);
+    if($verb) $message->bit('to')->verb($verb);
 
     return $message->speak();
   }
@@ -86,11 +87,12 @@ class Babel
    * @param  string  $verb   The verb to use
    * @return string
    */
-  public static function many($number, $noun, $verb = 'display')
+  public static function many($number, $noun, $verb = null)
   {
     $message = Babel::create($noun);
 
-    $message->number($number)->noun($noun)->verb($verb);
+    $message->number($number)->noun($noun);
+    if($verb) $message->verb($verb);
 
     return $message->speak();
   }

@@ -45,21 +45,21 @@ class EnglishBabelTests extends EnglishTests
 
   public function testNothing()
   {
-    $babel = Babel::no('user');
+    $babel = Babel::no('user', 'display');
 
     $this->assertEquals('No user to display', $babel);
   }
 
   public function testOne()
   {
-    $babel = Babel::many(1, 'album');
+    $babel = Babel::many(1, 'album', 'display');
 
     $this->assertEquals('One album displayed', $babel);
   }
 
   public function testMany()
   {
-    $babel = Babel::many(12, 'category');
+    $babel = Babel::many(12, 'category', 'display');
 
     $this->assertEquals('12 categories displayed', $babel);
   }

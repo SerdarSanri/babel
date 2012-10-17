@@ -45,21 +45,21 @@ class FrenchBabelTests extends FrenchTests
 
   public function testNothing()
   {
-    $babel = Babel::no('user');
+    $babel = Babel::no('user', 'display');
 
     $this->assertEquals('Aucun utilisateur à afficher', $babel);
   }
 
   public function testOne()
   {
-    $babel = Babel::many(1, 'album');
+    $babel = Babel::many(1, 'album', 'display');
 
     $this->assertEquals('Un album affiché', $babel);
   }
 
   public function testMany()
   {
-    $babel = Babel::many(12, 'category');
+    $babel = Babel::many(12, 'category', 'display');
 
     $this->assertEquals('12 catégories affichées', $babel);
   }
