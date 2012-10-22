@@ -11,7 +11,7 @@
   ),
 
   'invariable' => array(
-    'ces',
+    'des', 'ces',
     'la',
   ),
 );

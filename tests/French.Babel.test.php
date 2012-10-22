@@ -31,9 +31,9 @@ class FrenchBabelTests extends FrenchTests
 
   public function testAddMultiple()
   {
-    $babel = Babel::add('users');
+    $babel = Babel::add('categories');
 
-    $this->assertEquals('Ajouter des utilisateurs', $babel);
+    $this->assertEquals('Ajouter des catégories', $babel);
   }
 
   public function testAddAccord()
