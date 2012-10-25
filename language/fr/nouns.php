@@ -5,6 +5,7 @@
   'event'    => 'évènement',
   'file'     => 'fichier',
   'photo'    => 'photo',
+  'project'  => 'projet',
   'result'   => 'résultat',
   'user'     => 'utilisateur',
 );

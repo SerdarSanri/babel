@@ -5,6 +5,7 @@
   'event'    => 'event',
   'file'     => 'file',
   'photo'    => 'photo',
+  'project'  => 'project',
   'result'   => 'result',
   'user'     => 'user'
 );
