@@ -116,4 +116,18 @@ class EnglishBabelTests extends EnglishTests
     $this->assertEquals('12 categories created', $babel);
   }
 
+  public function testFormAdd()
+  {
+    $babel = Babel::form('create', 'category');
+
+    $this->assertEquals('Create a category', $babel);
+  }
+
+  public function testFormUpdate()
+  {
+    $babel = Babel::form('update', 'category', 'foo');
+
+    $this->assertEquals('Update the category &laquo; foo &raquo;', $babel);
+  }
+
 }

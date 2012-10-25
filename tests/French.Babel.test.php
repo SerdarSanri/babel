@@ -113,4 +113,18 @@ class FrenchBabelTests extends FrenchTests
 
     $this->assertEquals('12 catégories créées', $babel);
   }
+
+  public function testFormAdd()
+  {
+    $babel = Babel::form('create', 'category');
+
+    $this->assertEquals('Créer une catégorie', $babel);
+  }
+
+  public function testFormUpdate()
+  {
+    $babel = Babel::form('update', 'category', 'foo');
+
+    $this->assertEquals('Modifier la catégorie &laquo; foo &raquo;', $babel);
+  }
 }

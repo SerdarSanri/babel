@@ -64,6 +64,26 @@ class Babel
   }
 
   /**
+   * Creates a typical form heading "Edit project X", "Add a client"
+   *
+   * @param  string $verb   The verb
+   * @param  string $noun   The noun
+   * @param  string $object The model's representation (ex. $model->name)
+   * @return string         A form heading
+   */
+  public static function form($verb, $noun, $object = null)
+  {
+    $article = $object ? 'the' : 'a';
+    $noun = \Str::singular($noun);
+
+    $message = Babel::create();
+    $message->verb($verb)->article($article)->noun($noun);
+    if($object) $message->object($object);
+
+    return $message->speak();
+  }
+
+  /**
    * Creates a "No X Yed" message
    *
    * @param  string $noun The noun to use
