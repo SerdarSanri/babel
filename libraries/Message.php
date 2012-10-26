@@ -98,7 +98,7 @@ class Message
   }
 
   ////////////////////////////////////////////////////////////////////
-  /////////////////////////////// SETTERS ////////////////////////////
+  ///////////////////////////// SETTERS //////////////////////////////
   ////////////////////////////////////////////////////////////////////
 
   /**
@@ -257,12 +257,10 @@ class Message
     // Apply all rules to found words
     $message = Accord::accord($this);
 
-    // Reorder the sentence to match the pattern
-    //$message = Sentence::reorder($message);
-
     // Replace patterns with their value
     $sentence = Sentence::createFrom($message->pattern, $message->sentence);
 
+    // Destroy message instance
     static::$message = null;
 
     return $sentence;

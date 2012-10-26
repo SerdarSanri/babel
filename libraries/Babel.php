@@ -29,6 +29,10 @@ class Babel
     return Message::current();
   }
 
+  ////////////////////////////////////////////////////////////////////
+  //////////////////////// PRECREATED SENTENCES //////////////////////
+  ////////////////////////////////////////////////////////////////////
+
   /**
    * Builds a restful message
    *
@@ -59,6 +63,14 @@ class Babel
   {
     $message = Babel::create();
     $message->verb('add')->article('a')->noun($noun);
+
+    return $message->speak();
+  }
+
+  public static function back()
+  {
+    $message = Babel::create();
+    $message->bit('back');
 
     return $message->speak();
   }

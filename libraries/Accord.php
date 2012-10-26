@@ -20,6 +20,9 @@ class Accord
    */
   public static function accord(Message $message)
   {
+    // Set as current the message given
+    Message::message($message);
+
     // Look for common sentences patterns
     $pattern = $message->pattern;
 
