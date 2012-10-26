@@ -62,7 +62,7 @@ abstract class Accorder
     }
 
     // Special case for english language to use Laravel's plural function
-    if(\Babel::lang() == 'en' and static::$repository == 'plurals') return \Str::plural($word);
+    if(\Babel\Babel::lang() == 'en' and static::$repository == 'plurals') return \Str::plural($word);
 
     return $word;
   }
