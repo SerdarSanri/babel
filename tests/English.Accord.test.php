@@ -5,7 +5,6 @@ use Babel\Babel;
 include 'start.php';
 include 'EnglishTests.php';
 include 'FrenchTests.php';
-include 'SpanishTests.php';
 
 class EnglishAccordTests extends EnglishTests
 {
