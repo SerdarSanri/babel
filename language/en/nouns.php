@@ -7,5 +7,6 @@
   'photo'    => 'photo',
   'project'  => 'project',
   'result'   => 'result',
+  'task'     => 'task',
   'user'     => 'user'
 );
