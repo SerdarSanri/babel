@@ -2,6 +2,7 @@
   'album'    => 'album',
   'category' => 'catégorie',
   'document' => 'document',
+  'download' => 'téléchargement',
   'event'    => 'évènement',
   'file'     => 'fichier',
   'photo'    => 'photo',

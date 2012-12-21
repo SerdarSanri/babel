@@ -2,4 +2,5 @@
   'irregular'  => array(),
   'invariable' => array(),
   'feminize'   => array(),
+  'female'     => array(),
 );

@@ -8,20 +8,11 @@
  */
 namespace Babel;
 
+use \Lang;
 use \Str;
 
 class Word
 {
-  /**
-   * An array of female concepts
-   * @var array
-   */
-  private static $female = array(
-    'category',
-    'photo',
-    'poire',
-  );
-
   /**
    * Vowels
    * @var array
@@ -39,8 +30,9 @@ class Word
   public static function isFemale($noun)
   {
     $noun = Str::singular($noun);
+    $female = Lang::line('babel::accord/genders.female')->get();
 
-    return in_array($noun, static::$female);
+    return in_array($noun, $female);
   }
 
   /**
