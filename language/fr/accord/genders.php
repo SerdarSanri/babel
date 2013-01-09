@@ -22,5 +22,6 @@
     'category',
     'photo',
     'localisation',
+    'gallery',
   ),
 );

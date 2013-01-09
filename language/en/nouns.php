@@ -5,6 +5,7 @@
   'download' => 'download',
   'event'    => 'event',
   'file'     => 'file',
+  'gallery'  => 'gallery',
   'photo'    => 'photo',
   'project'  => 'project',
   'result'   => 'result',
