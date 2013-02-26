@@ -8,5 +8,5 @@
 
 // Autoload Cerberus
 Autoloader::namespaces(array(
-  'Babel' => Bundle::path('babel') . 'libraries'
+  'Babel' => Bundle::path('babel') . 'src'.DS.'Babel',
 ));

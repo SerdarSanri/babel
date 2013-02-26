@@ -1,0 +1,20 @@
+{
+  "name": "anahkiasen/babel",
+  "description": "",
+  "authors": [
+    {
+      "name": "Maxime Fabre",
+      "email": "ehtnam6@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0",
+    "illuminate/support": "4.0.x"
+  },
+  "autoload": {
+    "psr-0": {
+      "Babel": "src"
+    }
+  },
+  "minimum-stability": "dev"
+}
