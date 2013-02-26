@@ -210,6 +210,13 @@ class Babel
     return \Config::get('application.language');
   }
 
+  public static function getTranslations($file, $key)
+  {
+    $file = include __DIR__. '/../../lang/fr/'.$file.'.php';
+
+    return \Arrays::get($file, $key);
+  }
+
   /**
    * Translates a string
    *
