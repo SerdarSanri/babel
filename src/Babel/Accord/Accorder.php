@@ -21,7 +21,7 @@ abstract class Accorder
    */
   protected static function invariable($word)
   {
-    return in_array($word, Lang::line('babel::accord/'.static::$repository.'.invariable')->get());
+    return in_array($word, Babel::translate('accord/'.static::$repository.'.invariable'));
   }
 
   /**
@@ -32,7 +32,7 @@ abstract class Accorder
    */
   protected static function irregular($word)
   {
-    $irregular = Lang::line('babel::accord/'.static::$repository.'.irregular')->get();
+    $irregular = Babel::translate('accord/'.static::$repository.'.irregular');
 
     if(isset($irregular[$word])) return $irregular[$word];
     else return null;
@@ -55,7 +55,7 @@ abstract class Accorder
     if(!is_null(static::irregular($word))) return static::irregular($word);
 
     // Else look for patterns ans replace
-    foreach (Lang::line('babel::accord/' .static::$repository. '.'.$patterns)->get() as $pattern => $replace) {
+    foreach (Babel::translate('accord/' .static::$repository. '.'.$patterns) as $pattern => $replace) {
       if (preg_match($pattern, $word)) {
         return preg_replace($pattern, $replace, $word);
       }

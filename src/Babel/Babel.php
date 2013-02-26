@@ -8,6 +8,8 @@
  */
 namespace Babel;
 
+use Lang;
+
 class Babel
 {
   /**
@@ -186,7 +188,7 @@ class Babel
       $word = array_get($parameters, 0);
       if(is_null($word)) return false;
 
-      return __('babel::'.$method.'s.'.$word)->get(null, $word);
+      return Babel::translate($method.'s.'.$word, $word);
     }
 
     // Verb setting
@@ -206,5 +208,18 @@ class Babel
   public static function lang()
   {
     return \Config::get('application.language');
+  }
+
+  /**
+   * Translates a string
+   *
+   * @param string $key
+   * @param string $fallback
+   *
+   * @return string
+   */
+  public static function translate($key, $fallback = null)
+  {
+    return Lang::get('babel::'.$key);
   }
 }

@@ -30,7 +30,7 @@ class Word
   public static function isFemale($noun)
   {
     $noun = Str::singular($noun);
-    $female = Lang::line('babel::accord/genders.female')->get();
+    $female = Babel::translate('accord/genders.female');
 
     return in_array($noun, $female);
   }
