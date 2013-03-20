@@ -1,5 +1,5 @@
 <?php
-namespace \Babel;
+namespace Babel;
 
 use Illuminate\Support\ServiceProvider;
 

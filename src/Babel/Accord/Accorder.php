@@ -7,7 +7,9 @@
  */
 namespace Babel\Accord;
 
-use \Lang;
+use Babel\Babel;
+use Lang;
+use Str;
 
 abstract class Accorder
 {
@@ -62,7 +64,7 @@ abstract class Accorder
     }
 
     // Special case for english language to use Laravel's plural function
-    if(\Babel\Babel::lang() == 'en' and static::$repository == 'plurals') return \Str::plural($word);
+    if(Babel::lang() == 'en' and static::$repository == 'plurals') return Str::plural($word);
 
     return $word;
   }

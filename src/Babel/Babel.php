@@ -220,13 +220,21 @@ class Babel
   /**
    * Translates a string
    *
-   * @param string $key
+   * @param string $translation
    * @param string $fallback
    *
    * @return string
    */
-  public static function translate($key, $fallback = null)
+  public static function translate($translation, $fallback = null)
   {
-    return Lang::get('babel::'.$key);
+    $key = substr($translation, strpos($translation, '.'));
+    $key = trim($key, '.');
+
+    $file = str_replace('.'.$key, null, $translation);
+    $file = trim($file, '.');
+    d($file.'.'.$key);
+    $file = include __DIR__.'/../../lang/'.Lang::getLocale().'/' .$file. '.php';
+
+    return \Arrays::get($file, $key);
   }
 }
