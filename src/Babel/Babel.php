@@ -232,7 +232,6 @@ class Babel
 
     $file = str_replace('.'.$key, null, $translation);
     $file = trim($file, '.');
-    d($file.'.'.$key);
     $file = include __DIR__.'/../../lang/'.Lang::getLocale().'/' .$file. '.php';
 
     return \Arrays::get($file, $key);

@@ -273,12 +273,6 @@ class Message
    */
   public function __toString()
   {
-    try {
-      $this->speak();
-    }
-    catch (\Exception $e) {
-      var_dump($e->getMessage());
-    }
     return $this->speak();
   }
 
