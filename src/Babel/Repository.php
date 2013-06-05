@@ -30,9 +30,11 @@ class Repository
 	 */
 	public function inflect($word)
 	{
+
+		// Go through the different patterns
 		foreach ($this->repository['patterns'] as $from => $to) {
 			if (preg_match($from, $word)) {
-				$word = preg_replace($from, $to, $word);
+				return preg_replace($from, $to, $word);
 			}
 		}
 
