@@ -41,6 +41,16 @@ class Babel
 	}
 
 	/**
+	 * Create a new Babel Sentence
+	 *
+	 * @return Babel
+	 */
+	public static function sentence()
+	{
+		return new Sentence\Sentence;
+	}
+
+	/**
 	 * Get a class from Babel
 	 *
 	 * @param  string $key
@@ -68,8 +78,7 @@ class Babel
 	 */
 	public function getRepository($class)
 	{
-		$class = str_replace('\\', '/', $class);
-		$class = strtolower(basename($class));
+		$class = strtolower(String::baseClass($class));
 
 		$data = include __DIR__.'/../../lang/'.$this->getLanguage().'/'.$class.'.php';
 

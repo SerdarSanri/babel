@@ -29,4 +29,32 @@ abstract class BaseAccorder
 		$this->repository = $app['babel']->getRepository(get_called_class());
 	}
 
+	/**
+	 * Get the rule for a word
+	 *
+	 * @param  string $word
+	 *
+	 * @return string
+	 */
+	public function inflect($word)
+	{
+		// Go through the different patterns
+		foreach ($this->repository['patterns'] as $from => $to) {
+			if (preg_match($from, $word)) {
+				return preg_replace($from, $to, $word);
+			}
+		}
+
+		return $word;
+	}
+
+	/**
+	 * Accord a word
+	 *
+	 * @param  string $word
+	 *
+	 * @return string
+	 */
+	abstract function accord($word);
+
 }

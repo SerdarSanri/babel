@@ -17,7 +17,7 @@ class Number extends BaseAccorder
 	 */
 	public function accord($word, $number)
 	{
-		return $number. ' ' .$this->repository->inflect($word);
+		return $this->repository->inflect($word);
 	}
 
 }
