@@ -4,7 +4,7 @@ namespace Babel\Accorder;
 /**
  * Accords words with their number
  */
-class Number
+class Number extends BaseAccorder
 {
 
 	/**
@@ -17,7 +17,7 @@ class Number
 	 */
 	public function accord($word, $number)
 	{
-		return $word;
+		return $number. ' ' .$this->repository->inflect($word);
 	}
 
 }

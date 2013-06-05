@@ -5,6 +5,6 @@ class AccorderNumberTest extends BaseTests
 {
 	public function testCanAccordToNumber()
 	{
-		return true;
+		$this->assertEquals('3 words', $this->babel->accordNumber->accord('word', 3));
 	}
 }
